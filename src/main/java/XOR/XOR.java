@@ -2,6 +2,9 @@ package XOR;
 
 import Bases.Base;
 
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 public class XOR {
     private static final char[] hexChars = Base.initHex();
     public static String sameLengthHexXOR(String a, String b){
@@ -14,21 +17,16 @@ public class XOR {
         }
         return sb.toString();
     }
-    public static String crackSingleHexXOR(String s){
+    public static Queue<Result> crackSingleHexXOR(String s){
         if(!Base.isValidHex(s)){
             throw new IllegalArgumentException("String is not a valid hexadecimal string");
         }
-        String best = "";
-        double max = 0;
+        Queue<Result> q = new PriorityQueue<>();
         for(int i = 0; i<256; i++){
             String n = singleHexXOR(s, (char)i);
-            double a = score(n);
-            if(a>max){
-                best = n;
-                max = a;
-            }
+            q.add(new Result(n));
         }
-        return best;
+        return q;
     }
 
     public static String singleHexXOR(String s, char c){
@@ -45,8 +43,14 @@ public class XOR {
         int len = s.length();
         double score = 0;
         for(char i : s.toCharArray()){
-
-                if(i<='z'&&i>='a'||i<='Z'&&i>='A') score++;
+            if(i>=' '&&i<='~') {
+                if(i>='a'&&i<='z'||i>='A'&&i<='Z') score+=3;
+                else if(i>='0'&&i<='9') score+=2;
+                else if(i==' '||i=='_'||i=='{'||i=='}')score+=1.5;
+                else score++;
+            } else {
+                score--;
+            }
 
         }
         return score/len*100;
