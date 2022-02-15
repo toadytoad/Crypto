@@ -45,6 +45,16 @@ public class Base {
         return true;
     }
 
+    public static String toHex(String s){
+        StringBuilder sb = new StringBuilder();
+        for(char i : s.toCharArray()){
+            String chunk = Integer.toHexString(i);
+            if(chunk.length()==1) chunk = '0'+chunk;
+            sb.append(chunk);
+        }
+        return sb.toString();
+    }
+
     public static String fromHex(String s){
         if(!isValidHex(s)||s.length()%2==1){
             throw new IllegalArgumentException("String is not a valid hexadecimal string");

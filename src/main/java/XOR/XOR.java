@@ -28,7 +28,22 @@ public class XOR {
         }
         return q;
     }
-
+    public static String getKeyStream(String key, int len){
+        StringBuilder sb = new StringBuilder();
+        while(sb.length()+key.length()<=len){
+            sb.append(key);
+        }
+        sb.append(key, 0, len%key.length());
+        return sb.toString();
+    }
+    public static String StringKeyXOR(String s, String key){
+        String keyStream = getKeyStream(key, s.length());
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i<s.length(); i++){
+            sb.append((char)(keyStream.charAt(i)^s.charAt(i)));
+        }
+        return sb.toString();
+    }
     public static String singleHexXOR(String s, char c){
         String n = Base.fromHex(s);
         StringBuilder sb = new StringBuilder();
