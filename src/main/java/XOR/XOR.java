@@ -41,7 +41,7 @@ public class XOR {
     }
     public static int getHammingDistance(String a, String b){
         if(a.length()!=b.length()) throw new IllegalArgumentException("Strings not of same length: "+a.length()+" vs. "+b.length());
-        String s = StringKeyXOR(a, b);
+        String s = stringKeyXOR(a, b);
         int total = 0;
         for(char i : s.toCharArray()){
             total+=bitsIn(i);
@@ -56,7 +56,7 @@ public class XOR {
         sb.append(key, 0, len%key.length());
         return sb.toString();
     }
-    public static String StringKeyXOR(String s, String key){
+    public static String stringKeyXOR(String s, String key){
         String keyStream = getKeyStream(key, s.length());
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i<s.length(); i++){
